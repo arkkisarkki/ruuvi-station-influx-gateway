@@ -45,20 +45,21 @@ app.post('/api/station', async function (req, res) {
   const measurement = req.body
   for (const tag of measurement.tags) {
     const id = tag.id
+    const name = tag.name
 
     for (const key in tag) {
       const value = tag[key]
 
-      let point = new Point(key).tag('id', id)
+      let point = new Point(key).tag('id', id).tag('name', name)
       switch (typeof (value)) {
         case 'number':
-          point = point.floatField('value', value)
+          point = point.floatField(name, value)
           break
         case 'string':
-          point = point.stringField('value', value)
+          point = point.stringField(name, value)
           break
         case 'boolean':
-          point = point.booleanField('value', value)
+          point = point.booleanField(name, value)
           break
         default:
           continue
