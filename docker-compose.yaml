@@ -10,4 +10,27 @@ services:
       - .env
     ports:
       - "3000:3000/tcp"
-    network_mode: host
+    depends_on: 
+      - influxdb
+
+  influxdb:
+    image: influxdb:2.0.7
+    ports:
+      - 8086:8086
+    restart: "unless-stopped"
+    volumes:
+      - ./influxdb:/var/lib/influxdb2
+      - ./influxdb/config.yml:/etc/influxdb2/config.yml
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3001:3000
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    depends_on: 
+      - influxdb
+    restart: "unless-stopped"
+
+volumes:
+  grafana-storage:
