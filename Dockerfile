@@ -1,8 +1,7 @@
 # https://docs.docker.com/engine/reference/builder/
 
-FROM node:lts
+FROM node:alpine
 
-EXPOSE 3000/tcp
 ENV PORT=3000
 ENV NODE_ENV=production
 
